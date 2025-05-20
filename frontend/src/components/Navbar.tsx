@@ -11,14 +11,8 @@ export default function MyNavbar({ username = "Mika" }) {
         fluid
         className="d-flex justify-content-between align-items-center"
       >
-        {/* Logo 
-        <Navbar.Brand href="#" className="fw-bold fs-4">
-          NoMind
-        </Navbar.Brand>
-        */}
-
         {/* Search bar */}
-        <Form className="d-flex w-75">
+        <Form name="search bar" className="d-flex w-50">
           <Button
             className="rounded-pill"
             size="sm"
@@ -37,6 +31,7 @@ export default function MyNavbar({ username = "Mika" }) {
             </svg>
           </Button>
           <Form.Control
+            name="search input"
             type="search"
             placeholder="Search"
             className="me-2"
