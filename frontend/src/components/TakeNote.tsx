@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Form } from "react-bootstrap";
 import AddNote from "./AddNote";
 
-export default function TakeNote() {
+
+export default function TakeNote({ changeTrigger }: { changeTrigger: () => void }) {
+  
+ 
   const [show, setShow] = useState(false); //true - otvara se modal
 
   function handleOpen() {
@@ -32,7 +35,7 @@ export default function TakeNote() {
         </Form>
       )}
 
-      {show && <AddNote show={show} handleClose={handleClose} />}
+      {show && <AddNote show={show} handleClose={handleClose} handleTriger={changeTrigger} />}
     </div>
   );
 }
