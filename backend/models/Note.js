@@ -12,10 +12,10 @@ const noteSchema = new mongoose.Schema(
       maxlength: 5000,
       default: "",
     },
-    color: {
+    /*color: {
       type: Number,
       default: 0xffffff, // bela boja
-    },
+    },*/
     tags: {
       type: [String],
       default: [],
