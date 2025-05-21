@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Modal, Button, Form, Badge, CloseButton } from "react-bootstrap";
+import { Modal, Button, Form, CloseButton } from "react-bootstrap";
 
 type AddNoteProps = {
   show: boolean;
@@ -15,16 +15,16 @@ export default function AddNote({ show, handleClose }: AddNoteProps) {
   const [tagInput, setTagInput] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Fokus i auto-grow kada se modal otvori
+  //Fokus i auto-grow kada se modal otvori
   useEffect(() => {
     if (show && textareaRef.current) {
       textareaRef.current.focus();
-      textareaRef.current.style.height = "auto"; // reset
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // auto-grow
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; //auto-grow
     }
   }, [show]);
 
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  function handleContentChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const value = e.target.value;
     setContent(value);
 
@@ -33,19 +33,23 @@ export default function AddNote({ show, handleClose }: AddNoteProps) {
       textareaRef.current.style.height = "auto"; // reset
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // adjust
     }
-  };
+  }
 
-  const handleAddTag = () => {
-    const trimmed = tagInput.trim();
+  function handleAddTag() {
+    const trimmed = tagInput.trim(); //uklanja praznine sa pocetka i kraja stringa
     if (trimmed && !tags.includes(trimmed)) {
       setTags([...tags, trimmed]);
+      setTagInput("");
+    } else if (trimmed === "") {
+      alert("You have not entered a tag.");
+    } else {
+      alert("You have already selected this tag.");
     }
-    setTagInput("");
-  };
+  }
 
-  const handleRemoveTag = (tagToRemove: string) => {
+  function handleRemoveTag(tagToRemove: string) {
     setTags(tags.filter((tag) => tag !== tagToRemove));
-  };
+  }
 
   async function handleSave() {
     const note = {
@@ -89,37 +93,42 @@ export default function AddNote({ show, handleClose }: AddNoteProps) {
 
   return (
     <Modal show={show} onHide={handleDiscard} centered>
-      <div style={{ backgroundColor: "white" }}>
+      <div className="rounded" style={{ backgroundColor: "#e6ded1" }}>
         <Modal.Body>
           <Form.Group>
             <Form.Control
-              name="input title"
+              name="title input"
               className="mb-2"
               type="text"
               placeholder="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)} //kad klikne na Save tek onda da se setuje setTitle??
+              style={{ backgroundColor: "#f1eada" }}
             />
-
             <Form.Control
-              name="input note"
-              placeholder="Take a note..."
+              name="note input"
               as="textarea"
+              placeholder="Take a note..."
               rows={10}
               value={content}
               //onChange={(e) => setContent(e.target.value)}
               onChange={handleContentChange}
               ref={textareaRef}
+              style={{
+                overflow: "hidden",
+                resize: "none",
+                backgroundColor: "#f1eada",
+              }}
             />
           </Form.Group>
 
           <Form.Group className="mt-3">
             <div className="d-flex gap-2 flex-wrap mb-2">
               {tags.map((tag) => (
-                <Badge
+                <div
                   key={tag}
-                  bg="primary"
-                  className="d-flex align-items-center px-2"
+                  className="d-flex align-items-center px-2 rounded-pill"
+                  style={{ backgroundColor: "#949d67", color: "white" }}
                 >
                   {tag}
                   <CloseButton
@@ -127,7 +136,7 @@ export default function AddNote({ show, handleClose }: AddNoteProps) {
                     onClick={() => handleRemoveTag(tag)}
                     className="ms-2"
                   />
-                </Badge>
+                </div>
               ))}
             </div>
             <div className="d-flex gap-2">
@@ -143,6 +152,7 @@ export default function AddNote({ show, handleClose }: AddNoteProps) {
                     handleAddTag();
                   }
                 }}
+                style={{ backgroundColor: "#f1eada" }}
               />
               <Button onClick={handleAddTag}>Add</Button>
             </div>
@@ -150,15 +160,15 @@ export default function AddNote({ show, handleClose }: AddNoteProps) {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleDiscard}>
-            Discard
-          </Button>
           <Button
-            variant="primary"
             onClick={handleSave}
             disabled={!title.trim() && !content.trim()}
+            style={{ backgroundColor: "#28a444", border: "none" }}
           >
             Save
+          </Button>
+          <Button variant="secondary" onClick={handleDiscard}>
+            Discard
           </Button>
         </Modal.Footer>
       </div>

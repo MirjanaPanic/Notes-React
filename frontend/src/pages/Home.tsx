@@ -7,13 +7,12 @@ export default function Home() {
   return (
     <div style={{ display: "flex", height: "100vh" }}>
       <Sidebar />
-
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <MyNavbar />
 
         {/* Sadržaj stranica */}
         <div style={{ padding: "1rem", backgroundColor: "#f1eada", flex: 1 }}>
-          <TakeNote />
+          <TakeNote /> 
           <Notes />
         </div>
       </div>

@@ -17,18 +17,20 @@ export default function TakeNote() {
       className="d-flex flex-column justify-content-center align-items-center p-3"
       style={{ backgroundColor: "#e6ded1" }}
     >
-      <Form name="note input" onClick={handleOpen} className="d-flex w-75">
-        <Form.Control
-          type="text"
-          placeholder="Take a note..."
-          className="rounded-pill me-2"
-          style={{
-            backgroundColor: "#f1eada",
-            border: "1px solid gray",
-            height: "50px",
-          }}
-        />
-      </Form>
+      {!show && (
+        <Form name="note input" className="d-flex w-75" onClick={handleOpen}>
+          <Form.Control
+            type="text"
+            placeholder="Take a note..."
+            className="rounded-pill me-2"
+            style={{
+              backgroundColor: "#f1eada",
+              border: "1px solid gray",
+              height: "50px",
+            }}
+          />
+        </Form>
+      )}
 
       {show && <AddNote show={show} handleClose={handleClose} />}
     </div>
