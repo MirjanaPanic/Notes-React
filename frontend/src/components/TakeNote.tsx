@@ -5,8 +5,12 @@ import AddNote from "./AddNote";
 export default function TakeNote() {
   const [show, setShow] = useState(false); //true - otvara se modal
 
-  const handleOpen = () => setShow(true);
-  const handleClose = () => setShow(false);
+  function handleOpen() {
+    setShow(true);
+  }
+  function handleClose() {
+    setShow(false);
+  }
 
   return (
     <div

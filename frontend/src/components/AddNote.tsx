@@ -7,11 +7,12 @@ type AddNoteProps = {
 };
 
 export default function AddNote({ show, handleClose }: AddNoteProps) {
+  //dodati negde userId da se pamti za ulogovanog korisnika
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState("");
 
+  const [tagInput, setTagInput] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Fokus i auto-grow kada se modal otvori
@@ -46,19 +47,45 @@ export default function AddNote({ show, handleClose }: AddNoteProps) {
     setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
-  const handleSave = () => {
-    const note = { title, content, tags };
-    console.log("Sačuvana beleška:", note);
-    handleDiscard();
-  };
+  async function handleSave() {
+    const note = {
+      title,
+      content,
+      tags,
+      userId: "682cafe9d959c1097479f229", // videti gde da se pamti userId
+    };
 
-  const handleDiscard = () => {
+    try {
+      const response = await fetch("http://localhost:5000/notes/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(note),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server error: ${response.status} - ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log("Odgovor sa servera:", data);
+      console.log("Data saved successfully!");
+    } catch (error) {
+      console.error("There was a problem saving the data:", error);
+    }
+
+    handleDiscard();
+  }
+
+  function handleDiscard() {
     setTitle("");
     setContent("");
     setTags([]);
     setTagInput("");
     handleClose();
-  };
+  }
 
   return (
     <Modal show={show} onHide={handleDiscard} centered>
