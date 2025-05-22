@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Note = require("../models/Note");
+const mongoose = require("mongoose");
 
 //create a new note
 // http://localhost:5000/notes/add
@@ -44,6 +45,50 @@ router.post("/all", async (req, res) => {
   } catch (error) {
     console.error("Greška pri dohvatanju beleški:", error);
     res.status(500).json({ error: "Greška pri dohvatanju beleški" });
+  }
+});
+
+//lists all tags in sidebar
+// routes/notes.js ili gde god imaš rute
+const getUserTags = async (userId) => {
+  try {
+    const tags = await Note.distinct("tags", {
+      userId: userId,
+    });
+
+    return tags.sort(); // opciono sortiranje
+  } catch (error) {
+    throw new Error(`Greška pri dohvatanju tagova: ${error.message}`);
+  }
+};
+
+// http://localhost:5000/notes/tags
+router.post("/tags", async (req, res) => {
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      return res.status(400).json({ error: "Nedostaje userId" });
+    }
+
+    // Validacija da li je userId validan ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({
+        error: "Nevalidan userId format",
+      });
+    }
+
+    const tags = await getUserTags(userId);
+
+    res.json({
+      success: true,
+      tags: tags,
+      count: tags.length,
+    });
+  } catch (error) {
+    console.error("Greška pri dohvatanju tagova:", error);
+    res.status(500).json({
+      error: "Serverska greška pri dohvatanju tagova",
+    });
   }
 });
 

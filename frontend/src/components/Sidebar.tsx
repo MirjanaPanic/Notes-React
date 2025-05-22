@@ -1,4 +1,35 @@
-export default function Sidebar() {
+import { useEffect, useState } from "react";
+
+export default function Sidebar({trigger}:{trigger:boolean}) {
+  const [tags, setTags] = useState([]); //dependency je tags..... opet isto
+  const userId = "682cafe9d959c1097479f229";
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      if (!userId) return;
+      try {
+        const response = await fetch("http://localhost:5000/notes/tags", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setTags(data.tags || []);
+      } catch (err) {
+        console.error("Greška pri dohvatanju tagova:", err);
+      }
+    };
+
+    fetchTags();
+  }, [trigger]);
+
   return (
     <div
       style={{
@@ -24,31 +55,19 @@ export default function Sidebar() {
             📝 All Notes
           </li>
           <ul style={{ listStyle: "none", color: "#949d67" }}>
-            <li>
-              <a href="#" style={{ textDecoration: "none", color: "inherit" }}>
-                {" "}
-                ideas
-              </a>
-            </li>
-            <li>
-              <a href="#" style={{ textDecoration: "none", color: "inherit" }}>
-                {" "}
-                love life
-              </a>
-            </li>
-            <li>
-              <a href="#" style={{ textDecoration: "none", color: "inherit" }}>
-                {" "}
-                faculty
-              </a>
-            </li>
-            <li>
-              <a href="#" style={{ textDecoration: "none", color: "inherit" }}>
-                {" "}
-                goals
-              </a>
-            </li>
-            {/* Add more later */}
+            {tags.map((tag) => {
+              return (
+                <li>
+                  <a
+                    href="#"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    {" "}
+                    {tag}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </ul>
       </nav>

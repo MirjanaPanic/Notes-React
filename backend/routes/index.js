@@ -8,7 +8,7 @@ const router = express.Router();
 const notesRoutes = require("./notes"); //uvozim modul iz fajla notes.js
 const usersRoutes = require("./users");
 
-// Povezivanje ruta
+//Povezivanje ruta
 router.use("/notes", notesRoutes); //sve rute koje pocinju sa /notes
 router.use("/users", usersRoutes);
 

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+//import { createContext } from "react";
 import Note from "./Note";
+
 
 export default function AllNotes({trigger}:{trigger:boolean}) {
   const [notes, setNotes] = useState([]);
   //const [trigger, setTrigger] = useState(false);
   const userId = "682cafe9d959c1097479f229";
+  //const triggerContext = createContext(false); 
 
   //da izlistam notes
   useEffect(() => {

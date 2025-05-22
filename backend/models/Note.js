@@ -12,20 +12,14 @@ const noteSchema = new mongoose.Schema(
       maxlength: 5000,
       default: "",
     },
-    /*color: {
-      type: Number,
-      default: 0xffffff, // bela boja
-    },*/
     tags: {
       type: [String],
       default: [],
-      index: true,
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true,
     },
   },
   {
@@ -33,7 +27,10 @@ const noteSchema = new mongoose.Schema(
   }
 );
 
-// Validacija: title i content ne smeju oboje biti prazni
+//Compound indeks
+noteSchema.index({ userId: 1, tags: 1 });
+
+//Validacija
 noteSchema.pre("validate", function (next) {
   if (this.title === "" && this.content === "") {
     this.invalidate("title", "Title i content ne mogu biti oba prazna.");
@@ -42,4 +39,6 @@ noteSchema.pre("validate", function (next) {
   next();
 });
 
-module.exports = mongoose.model("Note", noteSchema);
+const Note = mongoose.model("Note", noteSchema);
+
+module.exports = Note;

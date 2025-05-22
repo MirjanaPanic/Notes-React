@@ -4,10 +4,14 @@ import { Modal, Button, Form, CloseButton } from "react-bootstrap";
 type AddNoteProps = {
   show: boolean;
   handleClose: () => void;
-  handleTriger:()=>void;
+  handleTriger: () => void;
 };
 
-export default function AddNote({ show, handleClose, handleTriger }: AddNoteProps) {
+export default function AddNote({
+  show,
+  handleClose,
+  handleTriger,
+}: AddNoteProps) {
   //dodati negde userId da se pamti za ulogovanog korisnika
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -74,7 +78,7 @@ export default function AddNote({ show, handleClose, handleTriger }: AddNoteProp
         throw new Error(`Server error: ${response.status} - ${errorText}`);
       }
 
-     handleTriger();
+      handleTriger(); //
     } catch (error) {
       console.error("There was a problem saving the data:", error);
     }

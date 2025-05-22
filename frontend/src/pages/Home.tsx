@@ -10,7 +10,7 @@ export default function Home() {
   //da preuzmem usera, i da ga prosledim kome treba
   return (
     <div style={{ display: "flex", height: "100vh" }}>
-      <Sidebar />
+      <Sidebar trigger={trigger}/>
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <MyNavbar />
 
