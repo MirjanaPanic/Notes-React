@@ -29,7 +29,7 @@ export default function TakeNote({ changeTrigger }: { changeTrigger: () => void 
             style={{
               backgroundColor: "#f1eada",
               border: "1px solid gray",
-              height: "50px",
+              height: "60px",
             }}
           />
         </Form>

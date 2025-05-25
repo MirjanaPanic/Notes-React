@@ -41,6 +41,7 @@ export default function AllNotes({trigger}:{trigger:boolean}) {
         gridTemplateColumns: "repeat(4, 1fr)",
         gap: "1rem",
         padding: "1rem",
+        backgroundColor:"#e6ded1"
       }}
     >
       {notes.map((note) => {

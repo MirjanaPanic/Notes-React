@@ -10,11 +10,19 @@ export default function Home() {
   //da preuzmem usera, i da ga prosledim kome treba
   return (
     <div style={{ display: "flex", height: "100vh" }}>
-      <Sidebar trigger={trigger}/>
+      <Sidebar trigger={trigger} />
+
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <MyNavbar />
 
-        <div style={{ padding: "1rem", backgroundColor: "#f1eada", flex: 1 }}>
+        <div
+          style={{
+            padding: "1rem",
+            backgroundColor: "#f1eada",
+            flex: 1,
+            overflowY: "auto", // ako sadrzaj preraste
+          }}
+        >
           <TakeNote changeTrigger={() => setTrigger(!trigger)} />
           <AllNotes trigger={trigger} />
         </div>

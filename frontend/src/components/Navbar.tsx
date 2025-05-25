@@ -44,6 +44,7 @@ export default function MyNavbar({ username = "Mika" }) {
           />
         </Form>
 
+
         {/* Logged-in user */}
         <Nav className="d-flex ">
           <div
