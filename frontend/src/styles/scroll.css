@@ -1,0 +1,35 @@
+.note-container {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: transparent transparent;
+}
+
+.note-container:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+}
+
+/* WebKit Browsers (Chrome, Edge, Safari) */
+.note-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.note-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.note-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.note-container:not(:hover)::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+/* 🔥 Ukloni strelice potpuno */
+.note-container::-webkit-scrollbar-button,
+.note-container::-webkit-scrollbar-button:single-button {
+  display: none;
+  height: 0;
+  width: 0;
+}

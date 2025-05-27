@@ -1,0 +1,4 @@
+.rounded-modal {
+  border-radius: 20px !important;
+  overflow: hidden; /* da se sadržaj ne prelije preko rounded krajeva */
+}

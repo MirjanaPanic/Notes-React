@@ -44,12 +44,11 @@ export default function MyNavbar({ username = "Mika" }) {
           />
         </Form>
 
-
         {/* Logged-in user */}
         <Nav className="d-flex ">
           <div
-            className="d-flex align-items-center text-muted px-3 py-1 rounded-pill gap-3"
-            style={{ backgroundColor: "#edd166" }}
+            className="d-flex align-items-center text-muted px-3 py-1  gap-3"
+            style={{ backgroundColor: "#edd166", borderRadius:"20px" }}
           >
             {/* Ikonica + username */}
             <div className="d-flex align-items-center">

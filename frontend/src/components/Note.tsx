@@ -14,11 +14,11 @@ export default function Note({ note }: { note: NoteType }) {
         backgroundColor: "#393E46",
         color: "white",
         padding: "1rem",
-        borderRadius: "10px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        height: "200px",
+        borderRadius: "20px",
+        marginBottom: "1rem", // razmak između kartica
+        breakInside: "avoid", // sprečava prelom kartice između kolona
+        display: "inline-block",
+        width: "100%",
       }}
     >
       <div>
@@ -35,14 +35,14 @@ export default function Note({ note }: { note: NoteType }) {
           <div
             style={{
               marginBottom: "0.5rem",
-              fontSize: "0.8rem",
+              fontSize: "0.85rem",
               color: "#ccc",
             }}
           >
             {note.tags.map((tag) => (
               <span
                 key={tag}
-                style={{ marginRight: "0.5rem", color: "#949d67" }}
+                style={{ marginRight: "0.5rem", color: "#B4D8B2" }}
               >
                 {tag}
               </span>
@@ -62,36 +62,44 @@ export default function Note({ note }: { note: NoteType }) {
         <strong style={{ fontSize: "1rem" }}>
           {note.title || "(No Title)"}
         </strong>
-        <p style={{ marginTop: "0.5rem", fontSize: "0.95rem" }}>
+        <p
+          style={{
+            marginTop: "0.5rem",
+            fontSize: "0.85rem",
+            overflow: "hidden",
+            display: "-webkit-box",
+            WebkitLineClamp: 20,
+            WebkitBoxOrient: "vertical",
+          }}
+        >
           {note.content || "(No Content)"}
         </p>
       </div>
-  <div
-  style={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    fontSize: "0.75rem",
-    color: "#aaa",
-    marginTop: "1rem",
-  }}
->
-  {/* Trash icon */}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="20px"
-    viewBox="0 -960 960 960"
-    width="20px"
-    fill="#db2121"
-    style={{ cursor: "pointer" }}
-  >
-    <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
-  </svg>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          fontSize: "0.75rem",
+          color: "#aaa",
+          marginTop: "1rem",
+        }}
+      >
+        {/* Trash icon */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="20px"
+          viewBox="0 -960 960 960"
+          width="20px"
+          fill="#db2121"
+          style={{ cursor: "pointer" }}
+        >
+          <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+        </svg>
 
-  {/* Last modified text */}
-  <span>Last modified: {new Date(note.updatedAt).toLocaleString()}</span>
-</div>
-
+        {/* Last modified text */}
+        <span>Last modified: {new Date(note.updatedAt).toLocaleString()}</span>
+      </div>
     </div>
   );
 }

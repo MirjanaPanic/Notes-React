@@ -25,7 +25,7 @@ export default function Home() {
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <MyNavbar />
 
-        <div
+        <div  className="note-container"
           style={{
             padding: "1rem",
             backgroundColor: "#f1eada",

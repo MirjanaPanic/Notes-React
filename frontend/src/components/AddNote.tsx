@@ -95,7 +95,7 @@ export default function AddNote({
   }
 
   return (
-    <Modal show={show} onHide={handleDiscard} centered>
+    <Modal show={show} onHide={handleDiscard} centered contentClassName="rounded-modal">
       <div className="rounded" style={{ backgroundColor: "#e6ded1" }}>
         <Modal.Body>
           <Form.Group>
@@ -158,7 +158,7 @@ export default function AddNote({
                 style={{ backgroundColor: "#f1eada" }}
               />
               <Button
-                style={{ backgroundColor: "#b0c4e4", border: "none" }}
+                style={{ backgroundColor: "#b0c4e4", border: "none", borderRadius:"20px" }}
                 onClick={handleAddTag}
               >
                 Add
@@ -171,11 +171,11 @@ export default function AddNote({
           <Button
             onClick={handleSave}
             disabled={!title.trim() && !content.trim()}
-            style={{ backgroundColor: "#28a444", border: "none" }}
+            style={{ backgroundColor: "#28a444", border: "none", borderRadius:"20px" }}
           >
             Save
           </Button>
-          <Button variant="secondary" onClick={handleDiscard}>
+          <Button variant="secondary" onClick={handleDiscard} style={{borderRadius:"20px"}}>
             Discard
           </Button>
         </Modal.Footer>
