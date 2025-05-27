@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
-export default function Sidebar({ trigger }: { trigger: boolean }) {
+export default function Sidebar({
+  handleOpen,
+  trigger,
+}: {
+  handleOpen: () => void;
+  trigger: boolean;
+}) {
   const [tags, setTags] = useState([]); //dependency je tags..... opet isto
   const userId = "682cafe9d959c1097479f229";
 
@@ -62,6 +68,7 @@ export default function Sidebar({ trigger }: { trigger: boolean }) {
               color: "#434343",
               border: "none",
             }}
+            onClick={handleOpen} // da se otvori modal
           >
             {" "}
             <svg

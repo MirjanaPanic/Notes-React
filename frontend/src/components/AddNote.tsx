@@ -78,7 +78,7 @@ export default function AddNote({
         throw new Error(`Server error: ${response.status} - ${errorText}`);
       }
 
-      handleTriger(); //
+      handleTriger(); //kad se sacuva nova beleska, da se fetch opet izvrsi
     } catch (error) {
       console.error("There was a problem saving the data:", error);
     }
@@ -157,7 +157,12 @@ export default function AddNote({
                 }}
                 style={{ backgroundColor: "#f1eada" }}
               />
-              <Button onClick={handleAddTag}>Add</Button>
+              <Button
+                style={{ backgroundColor: "#b0c4e4", border: "none" }}
+                onClick={handleAddTag}
+              >
+                Add
+              </Button>
             </div>
           </Form.Group>
         </Modal.Body>
