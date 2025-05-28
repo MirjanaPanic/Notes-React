@@ -1,10 +1,5 @@
-interface NoteType {
-  _id: string;
-  title: string;
-  content: string;
-  tags: string[];
-  updatedAt: string;
-}
+import { Button } from "react-bootstrap";
+import type { NoteType } from "../types";
 
 export default function Note({ note }: { note: NoteType }) {
   return (
@@ -59,9 +54,7 @@ export default function Note({ note }: { note: NoteType }) {
           </svg>
         </div>
 
-        <strong style={{ fontSize: "1rem" }}>
-          {note.title || "(No Title)"}
-        </strong>
+        <strong style={{ fontSize: "1rem" }}>{note.title}</strong>
         <p
           style={{
             marginTop: "0.5rem",
@@ -86,16 +79,18 @@ export default function Note({ note }: { note: NoteType }) {
         }}
       >
         {/* Trash icon */}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="20px"
-          viewBox="0 -960 960 960"
-          width="20px"
-          fill="#db2121"
-          style={{ cursor: "pointer" }}
-        >
-          <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
-        </svg>
+        <Button style={{ backgroundColor: "transparent", border: "none" }}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20px"
+            viewBox="0 -960 960 960"
+            width="20px"
+            fill="#db2121"
+            style={{ cursor: "pointer" }}
+          >
+            <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+          </svg>
+        </Button>
 
         {/* Last modified text */}
         <span>Last modified: {new Date(note.updatedAt).toLocaleString()}</span>
