@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Note from "./Note";
-import LoadingMessage from "./LoadingMessage";
-import ErrorMessage from "./ErrorMessage ";
+import LoadingMessage from "./ui/LoadingMessage";
+import ErrorMessage from "./ui/ErrorMessage";
 import type { ErrorType, NoteType } from "../types";
 
 export default function AllNotes({ trigger }: { trigger: boolean }) {

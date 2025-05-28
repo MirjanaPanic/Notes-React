@@ -1,10 +1,10 @@
-import MyNavbar from "../components/Navbar";
+import MyNavbar from "../components/layout/Navbar";
 import AllNotes from "../components/AllNotes";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/layout/Sidebar";
 //import TakeNote from "../components/TakeNote";
 import { useState } from "react";
 //import { Form } from "react-bootstrap";
-import AddNote from "../components/AddNote";
+import AddNote from "../components/features/AddNote";
 
 export default function Home() {
   const [trigger, setTrigger] = useState(false);

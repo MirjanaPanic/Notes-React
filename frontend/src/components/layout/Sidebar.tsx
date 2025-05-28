@@ -97,13 +97,13 @@ export default function Sidebar({
             marginLeft: "30px",
           }}
         >
-          {tags.map((tag) => {
+          {tags.map((tag,index) => {
             //dodati key na <li> !!!!!
             //srediti da tagovi se poravnaju levo
             const displaytag =
               tag.length <= 10 ? tag : `${tag.slice(0, 10)}...`;
             return (
-              <Button
+              <Button key={`${tag}-${index}`}
                 style={{
                   display: "flex", // ikonica i tekst u jednom redu
                   alignItems: "center", // vertikalno centriranje
