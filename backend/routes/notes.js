@@ -92,4 +92,67 @@ router.post("/tags", async (req, res) => {
   }
 });
 
+//find notes by selected tag
+// http://localhost:5000/notes/tag/tag1
+// http://localhost:5000/notes/tag/nekitaggg
+router.post("/tag/:tag", async (req, res) => {
+  try {
+    const { tag } = req.params;
+    const { userId } = req.body; //from body userId prosledjujemo
+
+    // Validacija
+    if (!userId) {
+      return res.status(400).json({
+        error: "UserId is must have",
+      });
+    }
+
+    if (!tag) {
+      return res.status(400).json({
+        error: "You have to send a tag",
+      });
+    }
+
+    //upit
+    const notes = await Note.find({
+      userId: userId,
+      tags: { $elemMatch: { $eq: tag } },
+    })
+      .hint({ userId: 1, tags: 1 })
+      .sort({ updatedAt: -1 });
+    //.explain("allPlansExecution");
+    //console.log(JSON.stringify(notes, null, 2)); // ili ispitaj ceo objekat;;
+
+    res.status(200).json({
+      data: notes,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Greška pri dohvatanju beleški",
+      error: error.message,
+    });
+  }
+});
+
+/*(async function checkIndexes() {
+  console.log("=== POSTOJEĆI INDEKSI ===");
+  const indexes = await Note.collection.getIndexes();
+  console.log(JSON.stringify(indexes, null, 2));
+
+  // Proverite da li compound index postoji
+  const compoundIndex = Object.entries(indexes).find(([name, idx]) => {
+    const keys = Object.keys(idx);
+    return JSON.stringify(keys) === JSON.stringify(["userId", "tags"]);
+  });
+
+  if (compoundIndex) {
+    console.log("✅ Compound index { userId: 1, tags: 1 } postoji");
+    console.log("Index details:", compoundIndex);
+  } else {
+    console.log("❌ Compound index ne postoji!");
+  }
+})(); //IIFE
+// */
+
 module.exports = router;

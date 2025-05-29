@@ -100,6 +100,7 @@ export default function AddNote({
       onHide={handleDiscard}
       centered
       contentClassName="rounded-modal"
+      
     >
       <div className="rounded" style={{ backgroundColor: "#e6ded1" }}>
         <Modal.Body>

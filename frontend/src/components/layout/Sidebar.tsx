@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 export default function Sidebar({
@@ -10,6 +11,8 @@ export default function Sidebar({
 }) {
   const [tags, setTags] = useState<string[]>([]); //dependency je tags..... opet isto
   const userId = "682cafe9d959c1097479f229";
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -37,6 +40,15 @@ export default function Sidebar({
     fetchTags();
   }, [trigger]);
 
+  function handleTagClick(tag: string) {
+    navigate(`/notes/tag/${tag}`);
+    //da se prikaze i all notes, pa kad klikne da se allnotes trigeruje
+  }
+
+  function handleAllClick() {
+    navigate("/");
+  }
+
   return (
     <div
       style={{
@@ -51,7 +63,7 @@ export default function Sidebar({
         overflowY: "auto",
       }}
     >
-      <div style={{marginBottom:"30px"}}>
+      <div style={{ marginBottom: "30px" }}>
         {" "}
         <h2 style={{ fontSize: "1.5rem", marginBottom: "3rem" }}>NoMind</h2>
         <Button
@@ -59,7 +71,7 @@ export default function Sidebar({
             backgroundColor: "#ecb1d2",
             color: "#434343",
             border: "none",
-            borderRadius:"20px"
+            borderRadius: "20px",
           }}
           onClick={handleOpen} // da se otvori modal
         >
@@ -76,13 +88,23 @@ export default function Sidebar({
           New note
         </Button>
       </div>{" "}
+      <Button
+        style={{
+          color: "#ecb1d2",
+          backgroundColor: "inherit",
+          border: "none",
+          borderRadius: "20px",
+        }}
+        onClick={() => handleAllClick()}
+      >
+        All notes
+      </Button>
       <div
         className="note-container"
         style={{
           width: "100%",
           overflowY: "auto", // samo ovde ide scroll
           maxHeight: "100%",
-          
         }}
       >
         <ul
@@ -97,13 +119,14 @@ export default function Sidebar({
             marginLeft: "30px",
           }}
         >
-          {tags.map((tag,index) => {
+          {tags.map((tag, index) => {
             //dodati key na <li> !!!!!
             //srediti da tagovi se poravnaju levo
             const displaytag =
               tag.length <= 10 ? tag : `${tag.slice(0, 10)}...`;
             return (
-              <Button key={`${tag}-${index}`}
+              <Button
+                key={`${tag}-${index}`}
                 style={{
                   display: "flex", // ikonica i tekst u jednom redu
                   alignItems: "center", // vertikalno centriranje
@@ -114,8 +137,17 @@ export default function Sidebar({
                   fontSize: "0.9rem",
                   color: "#B4D8B2",
                 }}
+                onClick={() => handleTagClick(tag)}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#B4D8B2"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h440q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H160Zm0-80h440l180-240-180-240H160v480Zm220-240Z"/></svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#B4D8B2"
+                >
+                  <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h440q19 0 36 8.5t28 23.5l216 288-216 288q-11 15-28 23.5t-36 8.5H160Zm0-80h440l180-240-180-240H160v480Zm220-240Z" />
+                </svg>
                 {displaytag}
               </Button>
             );

@@ -1,14 +1,16 @@
 import MyNavbar from "../components/layout/Navbar";
 import AllNotes from "../components/AllNotes";
 import Sidebar from "../components/layout/Sidebar";
-//import TakeNote from "../components/TakeNote";
 import { useState } from "react";
-//import { Form } from "react-bootstrap";
 import AddNote from "../components/features/AddNote";
+
+import { useParams } from "react-router-dom";
 
 export default function Home() {
   const [trigger, setTrigger] = useState(false);
   const [show, setShow] = useState(false); //true - otvara se modal
+
+  const { tag } = useParams(); // ako je aktivan tag u URL-u
 
   function handleOpen() {
     setShow(true);
@@ -25,7 +27,8 @@ export default function Home() {
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <MyNavbar />
 
-        <div  className="note-container"
+        <div
+          className="note-container"
           style={{
             padding: "1rem",
             backgroundColor: "#f1eada",
@@ -33,7 +36,11 @@ export default function Home() {
             overflowY: "auto", // ako sadrzaj preraste
           }}
         >
-          <AllNotes trigger={trigger} />
+          {!tag ? (
+            <AllNotes trigger={trigger} />
+          ) : (
+            <AllNotes tag={tag} />
+          )}
 
           {show && (
             <AddNote
