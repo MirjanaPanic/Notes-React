@@ -1,7 +1,26 @@
 import { Button } from "react-bootstrap";
 import type { NoteType } from "../types";
+import { useState } from "react";
+import Alert from "./ui/Alert";
 
 export default function Note({ note }: { note: NoteType }) {
+  const userId = "682cafe9d959c1097479f229"; //srediti ovo
+
+  const [show, setShow] = useState(false); //true - otvara se modal
+
+  function handleOpen() {
+    setShow(true);
+  }
+  /*function handleClose() {
+    setShow(false);
+  }*/
+
+  async function handleDelete(noteId: string) {
+    const deleteData = {
+      userId: userId, // videti gde da se pamti userId
+      noteId: noteId,
+    };
+  }
   return (
     <div
       key={note._id}
@@ -25,7 +44,7 @@ export default function Note({ note }: { note: NoteType }) {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            flexWrap:"wrap"
+            flexWrap: "wrap",
           }}
         >
           <div
@@ -84,7 +103,10 @@ export default function Note({ note }: { note: NoteType }) {
         }}
       >
         {/* Trash icon */}
-        <Button style={{ backgroundColor: "transparent", border: "none" }}>
+        <Button
+          onClick={() => handleDelete(note._id)}
+          style={{ backgroundColor: "transparent", border: "none" }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"

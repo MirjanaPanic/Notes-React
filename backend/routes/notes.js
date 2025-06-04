@@ -155,4 +155,60 @@ router.post("/tag/:tag", async (req, res) => {
 })(); //IIFE
 // */
 
+//brisanje note po id koji se prosledi
+router.post("/deleteNote", async (req, res) => {
+  try {
+    const { userId, noteId } = req.body;
+
+    if (!userId || !noteId) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing noteId or userId",
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(noteId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Not valid noteId",
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Not valid userId",
+      });
+    }
+
+    const deletedNote = await Note.findOneAndDelete({
+      _id: noteId,
+      userId: userId,
+    });
+
+    // Ako beleška nije pronađena ili ne pripada korisniku
+    if (!deletedNote) {
+      return res.status(404).json({
+        success: false,
+        message: "Note not found or you don't have permission to delete",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Note successfully deleted",
+      deletedNote: {
+        id: deletedNote._id,
+        title: deletedNote.title,
+      },
+    });
+  } catch (error) {
+    console.error("Error deleting note:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error deleting note",
+    });
+  }
+});
+
 module.exports = router;
