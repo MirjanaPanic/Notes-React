@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Note from "./Note";
 import LoadingMessage from "./ui/LoadingMessage";
 import ErrorMessage from "./ui/ErrorMessage";
-import type { ErrorType, NoteType } from "../types";
+import type { ErrorType, NoteType } from "../lib/types";
 
 export default function AllNotes({
   trigger,

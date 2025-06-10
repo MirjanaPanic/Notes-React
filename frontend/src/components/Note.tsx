@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import type { NoteType } from "../types";
+import type { NoteType } from "../lib/types";
 import { useState } from "react";
 import DeleteNote from "./features/DeleteNote";
 
