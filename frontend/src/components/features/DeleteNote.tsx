@@ -1,17 +1,11 @@
-import { Button, Modal } from "react-bootstrap";
+import { useState } from "react";
+import { Button } from "react-bootstrap";
+import AllNotes from "../AllNotes";
 
-export default function DeleteAlert({
-  show,
-  handleShowAlert,
-  deleteData,
-}: {
-  show: boolean;
-  handleShowAlert: () => void;
-  deleteData: object;
-}) {
-  async function handleDelete() {
-    console.log("podaci za brisanje", deleteData);
-    //fetch ka metodi za brisanje
+export default function DeleteNote({ deleteData }: { deleteData: object }) {
+  const [checked, setChecked] = useState(false);
+  async function handleClick() {
+    console.log("klik na trash: ", deleteData);
     try {
       const response = await fetch("http://localhost:5000/notes/deleteNote", {
         method: "POST",
@@ -25,11 +19,9 @@ export default function DeleteAlert({
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to delete note");
+        //da izadje neka poruka da nije uspela da se obrise
       }
-
-      console.log("Note deleted successfully:", data.deletedNote);
-      handleShowAlert();
-      //i da osvezi prikaz, useffect neki
+      setChecked(true);
     } catch (error) {
       console.error("Error deleting note:", error);
       throw error;
@@ -37,59 +29,26 @@ export default function DeleteAlert({
   }
 
   return (
-    show && (
-      <Modal
-        show={show}
-        onHide={handleShowAlert}
-        centered
-        contentClassName="rounded-modal"
-      >
-        <div className="rounded" style={{ backgroundColor: "#e6ded1" }}>
-          <Modal.Body>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-              }}
-            >
-              <p style={{ marginBottom: "1rem" }}>
-                Are you sure you want to delete this note?
-              </p>
-
-              <div
-                style={{
-                  display: "flex",
-                  gap: "1rem",
-                }}
-              >
-                <Button
-                  style={{
-                    backgroundColor: "#28a444",
-                    border: "none",
-                    borderRadius: "20px",
-                    padding: "0.5rem 1rem",
-                  }}
-                  onClick={handleDelete}
-                >
-                  Yes
-                </Button>
-                <Button
-                  variant="secondary"
-                  style={{
-                    borderRadius: "20px",
-                    padding: "0.5rem 1rem",
-                  }}
-                  onClick={handleShowAlert}
-                >
-                  Discard
-                </Button>
-              </div>
-            </div>
-          </Modal.Body>
-        </div>
-      </Modal>
-    )
+    <>
+      {checked && <AllNotes trigger={true}></AllNotes>}
+      <div style={{ margin: "5px" }}>
+        <p style={{ fontSize: "15px" }}> Delete this note?</p>
+        <Button
+          style={{
+            backgroundColor: "#28a444",
+            border: "none",
+            borderRadius: "20px",
+          }}
+          onClick={handleClick}
+        >
+          {" "}
+          Yes
+        </Button>
+        <Button variant="secondary" style={{ borderRadius: "20px" }}>
+          {" "}
+          Discard{" "}
+        </Button>
+      </div>
+    </>
   );
 }

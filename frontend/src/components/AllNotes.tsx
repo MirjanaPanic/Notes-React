@@ -19,80 +19,40 @@ export default function AllNotes({
   const userId = "682cafe9d959c1097479f229"; //srediti ovo
 
   useEffect(() => {
+    setNotes([]); // Očisti na početku
     const controller = new AbortController();
+
     async function fetchNotes() {
       setLoading(true);
       setError(null);
+
       try {
-        const response = await fetch("http://localhost:5000/notes/all", {
+        const url = tag
+          ? `http://localhost:5000/notes/tag/${tag}`
+          : "http://localhost:5000/notes/all";
+
+        const response = await fetch(url, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId }),
           signal: controller.signal,
         });
 
         if (!response.ok) throw new Error("Failed to fetch notes");
 
-        const data: NoteType[] = await response.json();
-        setNotes(data);
+        const data = await response.json();
+        setNotes(tag ? data.data : data);
       } catch (err) {
         if (err instanceof Error && err.name !== "AbortError") {
           setError(err.message);
-          console.error("Error:", err);
         }
       } finally {
         setLoading(false);
       }
     }
-
     fetchNotes();
-    //cleanup - unmount(unistenje komponente), promena dependencies(prvo cleanup pa onda useEffect), re-render
     return () => controller.abort();
-  }, [trigger]);
-  //trigger se promeni kad korisnik doda novu belesku ili obrise, znaci na klik na dugme save
-
-  useEffect(() => {
-    if (!userId || !tag) return; // čekamo dok oba ne postoje
-
-    const controller = new AbortController();
-
-    async function fetchTaggedNotes() {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const response = await fetch(`http://localhost:5000/notes/tag/${tag}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId }),
-          signal: controller.signal,
-        });
-
-        if (!response.ok) {
-          console.log(response);
-          throw new Error("Neuspešno dohvatanje beleški po tagu");
-        }
-
-        const result = await response.json();
-        setNotes(result.data);
-      } catch (err) {
-        if (err instanceof Error && err.name !== "AbortError") {
-          setError(err.message);
-          console.error("Greška:", err);
-        }
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchTaggedNotes();
-
-    return () => controller.abort(); // cleanup ako se komponenta unmount-uje
-  }, [tag]);
+  }, [trigger, tag]); // Oba dependency-ja
 
   if (loading) return <LoadingMessage />;
   if (error) return <ErrorMessage message={error} />;
