@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Modal, Button, Form, CloseButton } from "react-bootstrap";
+import { USER_ID } from "../../lib/constants";
 
 type AddNoteProps = {
   show: boolean;
@@ -61,7 +62,7 @@ export default function AddNote({
       title,
       content,
       tags,
-      userId: "682cafe9d959c1097479f229", // videti gde da se pamti userId
+      userId: USER_ID, // videti gde da se pamti userId
     };
 
     try {

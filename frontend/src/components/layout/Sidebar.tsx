@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import { TAG_LENGTH_SIDEBAR, USER_ID } from "../../lib/constants";
 
 export default function Sidebar({
   handleOpen,
@@ -10,20 +11,19 @@ export default function Sidebar({
   trigger: boolean;
 }) {
   const [tags, setTags] = useState<string[]>([]); //dependency je tags..... opet isto
-  const userId = "682cafe9d959c1097479f229";
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTags = async () => {
-      if (!userId) return;
+      if (!USER_ID) return;
       try {
         const response = await fetch("http://localhost:5000/notes/tags", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ userId }),
+          body: JSON.stringify({ USER_ID }),
         });
 
         if (!response.ok) {
@@ -123,7 +123,7 @@ export default function Sidebar({
             //dodati key na <li> !!!!!
             //srediti da tagovi se poravnaju levo
             const displaytag =
-              tag.length <= 10 ? tag : `${tag.slice(0, 10)}...`;
+              tag.length <= TAG_LENGTH_SIDEBAR ? tag : `${tag.slice(0, TAG_LENGTH_SIDEBAR)}...`;
             return (
               <Button
                 key={`${tag}-${index}`}

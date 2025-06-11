@@ -36,11 +36,7 @@ export default function Home() {
             overflowY: "auto", // ako sadrzaj preraste
           }}
         >
-          {!tag ? (
-            <AllNotes trigger={trigger} />
-          ) : (
-            <AllNotes tag={tag} />
-          )}
+          {!tag ? <AllNotes trigger={trigger} /> : <AllNotes tag={tag} />}
 
           {show && (
             <AddNote

@@ -3,6 +3,7 @@ import Note from "./Note";
 import LoadingMessage from "./ui/LoadingMessage";
 import ErrorMessage from "./ui/ErrorMessage";
 import type { ErrorType, NoteType } from "../lib/types";
+import { USER_ID } from "../lib/constants";
 
 export default function AllNotes({
   trigger,
@@ -16,7 +17,7 @@ export default function AllNotes({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ErrorType>(null);
 
-  const userId = "682cafe9d959c1097479f229"; //srediti ovo
+  
 
   useEffect(() => {
     setNotes([]); // Očisti na početku
@@ -34,7 +35,7 @@ export default function AllNotes({
         const response = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId }),
+          body: JSON.stringify({ USER_ID }),
           signal: controller.signal,
         });
 

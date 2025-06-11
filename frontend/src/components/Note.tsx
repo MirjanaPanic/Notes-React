@@ -2,15 +2,15 @@ import { Button } from "react-bootstrap";
 import type { NoteType } from "../lib/types";
 import { useState } from "react";
 import DeleteNote from "./features/DeleteNote";
+import { TAG_LENGTH_NOTE, USER_ID } from "../lib/constants";
 
 export default function Note({ note }: { note: NoteType }) {
-  const userId = "682cafe9d959c1097479f229"; //srediti ovo
-
+  
   const [checkDelete, setCheckDelete] = useState(false);
   const [deleteData, setDeleteData] = useState<{
     userId: string;
     noteId?: string;
-  }>({ userId: userId });
+  }>({ userId: USER_ID });
 
   async function handleDelete(noteId: string) {
     //kad se klikne na trash, da se ispod pojavi div
@@ -65,7 +65,7 @@ export default function Note({ note }: { note: NoteType }) {
               >
                 {note.tags.map((tag) => {
                   const displaytag =
-                    tag.length <= 15 ? tag : `${tag.slice(0, 15)}...`;
+                    tag.length <= TAG_LENGTH_NOTE ? tag : `${tag.slice(0, TAG_LENGTH_NOTE)}...`;
                   return (
                     <span
                       key={tag}
