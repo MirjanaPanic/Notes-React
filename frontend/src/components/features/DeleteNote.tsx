@@ -1,16 +1,16 @@
-import { useState } from "react";
-import AllNotes from "../AllNotes";
+//import { useState } from "react";
+//import AllNotes from "../AllNotes";
 import MyButton from "../custom/MyButton";
 
 export default function DeleteNote({
   deleteData,
   onDiscard,
+  onDeleteSuccess,
 }: {
   deleteData: object;
   onDiscard: () => void;
+  onDeleteSuccess: () => void;
 }) {
-  const [checked, setChecked] = useState(false);
-
   async function handleClick() {
     console.log("klik na trash: ", deleteData);
     try {
@@ -28,7 +28,7 @@ export default function DeleteNote({
         throw new Error(data.message || "Failed to delete note");
         //da izadje neka poruka da nije uspela da se obrise
       }
-      setChecked(true);
+      onDeleteSuccess(); //javi roditelju, da osvezi opet allNotes
     } catch (error) {
       console.error("Error deleting note:", error);
       throw error;
@@ -37,21 +37,17 @@ export default function DeleteNote({
 
   return (
     <>
-      {checked ? (
-        <AllNotes trigger={true}></AllNotes>
-      ) : (
-        <div style={{ margin: "5px" }}>
-          <p style={{ fontSize: "15px" }}> Delete this note?</p>
-          <MyButton type="success" onClick={handleClick}>
-            {" "}
-            Yes
-          </MyButton>
-          <MyButton type="secondary" onClick={onDiscard}>
-            {" "}
-            Discard{" "}
-          </MyButton>
-        </div>
-      )}
+      <div style={{ margin: "5px" }}>
+        <p style={{ fontSize: "15px" }}> Delete this note?</p>
+        <MyButton type="success" onClick={handleClick}>
+          {" "}
+          Yes
+        </MyButton>
+        <MyButton type="secondary" onClick={onDiscard}>
+          {" "}
+          Discard{" "}
+        </MyButton>
+      </div>
     </>
   );
 }

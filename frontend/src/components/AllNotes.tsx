@@ -13,6 +13,7 @@ export default function AllNotes({
   tag?: string;
 }) {
   const [notes, setNotes] = useState<NoteType[]>([]);
+  const [refresh, setRefresh] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ErrorType>(null);
@@ -51,10 +52,15 @@ export default function AllNotes({
     }
     fetchNotes();
     return () => controller.abort();
-  }, [trigger, tag]); // Oba dependency-ja
+  }, [trigger, tag, refresh]); // Oba dependency-ja
 
   if (loading) return <LoadingMessage />;
   if (error) return <ErrorMessage message={error} />;
+
+  function handleDeleteSuccess() {
+    setRefresh(true);
+    console.log("u all notes iz delete note");
+  }
 
   return (
     <div
@@ -67,7 +73,13 @@ export default function AllNotes({
       }}
     >
       {notes.map((note) => {
-        return <Note key={note._id} note={note}></Note>;
+        return (
+          <Note
+            key={note._id}
+            note={note}
+            onDeleteSuccess={handleDeleteSuccess}
+          ></Note>
+        );
       })}
     </div>
   );

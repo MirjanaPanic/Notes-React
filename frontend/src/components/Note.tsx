@@ -4,7 +4,13 @@ import { useState } from "react";
 import DeleteNote from "./features/DeleteNote";
 import { TAG_LENGTH_NOTE, USER_ID } from "../lib/constants";
 
-export default function Note({ note }: { note: NoteType }) {
+export default function Note({
+  note,
+  onDeleteSuccess,
+}: {
+  note: NoteType;
+  onDeleteSuccess: () => void;
+}) {
   const [checkDelete, setCheckDelete] = useState(false);
   const [deleteData, setDeleteData] = useState<{
     userId: string;
@@ -175,7 +181,11 @@ export default function Note({ note }: { note: NoteType }) {
           </div>
         </section>
         {checkDelete && (
-          <DeleteNote onDiscard={handleDiscard} deleteData={deleteData} />
+          <DeleteNote
+            onDiscard={handleDiscard}
+            onDeleteSuccess={onDeleteSuccess}
+            deleteData={deleteData}
+          />
         )}
       </div>
     </>
