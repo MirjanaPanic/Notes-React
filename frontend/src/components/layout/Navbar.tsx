@@ -48,7 +48,7 @@ export default function MyNavbar({ username = "Mika" }) {
         <Nav className="d-flex ">
           <div
             className="d-flex align-items-center text-muted px-3 py-1  gap-3"
-            style={{ backgroundColor: "#edd166", borderRadius:"20px" }}
+            style={{ backgroundColor: "#edd166", borderRadius: "20px" }}
           >
             {/* Ikonica + username */}
             <div className="d-flex align-items-center">

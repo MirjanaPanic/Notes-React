@@ -5,7 +5,6 @@ import DeleteNote from "./features/DeleteNote";
 import { TAG_LENGTH_NOTE, USER_ID } from "../lib/constants";
 
 export default function Note({ note }: { note: NoteType }) {
-  
   const [checkDelete, setCheckDelete] = useState(false);
   const [deleteData, setDeleteData] = useState<{
     userId: string;
@@ -20,6 +19,10 @@ export default function Note({ note }: { note: NoteType }) {
     };
     setDeleteData(updatedDeleteData);
     setCheckDelete(true); //to trigeruje re-render
+  }
+
+  function handleDiscard() {
+    setCheckDelete(false);
   }
 
   return (
@@ -65,7 +68,9 @@ export default function Note({ note }: { note: NoteType }) {
               >
                 {note.tags.map((tag) => {
                   const displaytag =
-                    tag.length <= TAG_LENGTH_NOTE ? tag : `${tag.slice(0, TAG_LENGTH_NOTE)}...`;
+                    tag.length <= TAG_LENGTH_NOTE
+                      ? tag
+                      : `${tag.slice(0, TAG_LENGTH_NOTE)}...`;
                   return (
                     <span
                       key={tag}
@@ -169,7 +174,9 @@ export default function Note({ note }: { note: NoteType }) {
             </span>
           </div>
         </section>
-        {checkDelete && <DeleteNote deleteData={deleteData} />}
+        {checkDelete && (
+          <DeleteNote onDiscard={handleDiscard} deleteData={deleteData} />
+        )}
       </div>
     </>
   );

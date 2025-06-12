@@ -1,9 +1,16 @@
 import { useState } from "react";
-import { Button } from "react-bootstrap";
 import AllNotes from "../AllNotes";
+import MyButton from "../custom/MyButton";
 
-export default function DeleteNote({ deleteData }: { deleteData: object }) {
+export default function DeleteNote({
+  deleteData,
+  onDiscard,
+}: {
+  deleteData: object;
+  onDiscard: () => void;
+}) {
   const [checked, setChecked] = useState(false);
+
   async function handleClick() {
     console.log("klik na trash: ", deleteData);
     try {
@@ -30,25 +37,21 @@ export default function DeleteNote({ deleteData }: { deleteData: object }) {
 
   return (
     <>
-      {checked && <AllNotes trigger={true}></AllNotes>}
-      <div style={{ margin: "5px" }}>
-        <p style={{ fontSize: "15px" }}> Delete this note?</p>
-        <Button
-          style={{
-            backgroundColor: "#28a444",
-            border: "none",
-            borderRadius: "20px",
-          }}
-          onClick={handleClick}
-        >
-          {" "}
-          Yes
-        </Button>
-        <Button variant="secondary" style={{ borderRadius: "20px" }}>
-          {" "}
-          Discard{" "}
-        </Button>
-      </div>
+      {checked ? (
+        <AllNotes trigger={true}></AllNotes>
+      ) : (
+        <div style={{ margin: "5px" }}>
+          <p style={{ fontSize: "15px" }}> Delete this note?</p>
+          <MyButton type="success" onClick={handleClick}>
+            {" "}
+            Yes
+          </MyButton>
+          <MyButton type="secondary" onClick={onDiscard}>
+            {" "}
+            Discard{" "}
+          </MyButton>
+        </div>
+      )}
     </>
   );
 }

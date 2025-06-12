@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import { Modal, Button, Form, CloseButton } from "react-bootstrap";
+import { Modal, Form, CloseButton } from "react-bootstrap";
 import { USER_ID } from "../../lib/constants";
+import MyButton from "../custom/MyButton";
 
 type AddNoteProps = {
   show: boolean;
@@ -101,7 +102,6 @@ export default function AddNote({
       onHide={handleDiscard}
       centered
       contentClassName="rounded-modal"
-      
     >
       <div className="rounded" style={{ backgroundColor: "#e6ded1" }}>
         <Modal.Body>
@@ -164,39 +164,24 @@ export default function AddNote({
                 }}
                 style={{ backgroundColor: "#f1eada" }}
               />
-              <Button
-                style={{
-                  backgroundColor: "#b0c4e4",
-                  border: "none",
-                  borderRadius: "20px",
-                }}
-                onClick={handleAddTag}
-              >
+              <MyButton type="success" onClick={handleAddTag}>
                 Add
-              </Button>
+              </MyButton>
             </div>
           </Form.Group>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button
+          <MyButton
+            type="success"
             onClick={handleSave}
             disabled={!title.trim() && !content.trim()}
-            style={{
-              backgroundColor: "#28a444",
-              border: "none",
-              borderRadius: "20px",
-            }}
           >
             Save
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={handleDiscard}
-            style={{ borderRadius: "20px" }}
-          >
+          </MyButton>
+          <MyButton type="secondary" onClick={handleDiscard}>
             Discard
-          </Button>
+          </MyButton>
         </Modal.Footer>
       </div>
     </Modal>

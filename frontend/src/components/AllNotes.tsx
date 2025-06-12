@@ -17,8 +17,6 @@ export default function AllNotes({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ErrorType>(null);
 
-  
-
   useEffect(() => {
     setNotes([]); // Očisti na početku
     const controller = new AbortController();
@@ -35,7 +33,7 @@ export default function AllNotes({
         const response = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ USER_ID }),
+          body: JSON.stringify({ userId: USER_ID }),
           signal: controller.signal,
         });
 

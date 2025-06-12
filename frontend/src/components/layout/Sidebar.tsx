@@ -4,10 +4,10 @@ import { Button } from "react-bootstrap";
 import { TAG_LENGTH_SIDEBAR, USER_ID } from "../../lib/constants";
 
 export default function Sidebar({
-  handleOpen,
+  onOpen,
   trigger,
 }: {
-  handleOpen: () => void;
+  onOpen: () => void;
   trigger: boolean;
 }) {
   const [tags, setTags] = useState<string[]>([]); //dependency je tags..... opet isto
@@ -23,7 +23,7 @@ export default function Sidebar({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ USER_ID }),
+          body: JSON.stringify({ userId: USER_ID }),
         });
 
         if (!response.ok) {
@@ -73,7 +73,7 @@ export default function Sidebar({
             border: "none",
             borderRadius: "20px",
           }}
-          onClick={handleOpen} // da se otvori modal
+          onClick={onOpen} // da se otvori modal
         >
           {" "}
           <svg
@@ -123,7 +123,9 @@ export default function Sidebar({
             //dodati key na <li> !!!!!
             //srediti da tagovi se poravnaju levo
             const displaytag =
-              tag.length <= TAG_LENGTH_SIDEBAR ? tag : `${tag.slice(0, TAG_LENGTH_SIDEBAR)}...`;
+              tag.length <= TAG_LENGTH_SIDEBAR
+                ? tag
+                : `${tag.slice(0, TAG_LENGTH_SIDEBAR)}...`;
             return (
               <Button
                 key={`${tag}-${index}`}
