@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Modal, Form, CloseButton } from "react-bootstrap";
 import { USER_ID } from "../../lib/constants";
-import MyButton from "../custom/MyButton";
+import MyButton from "../reusable/MyButton";
 
 type AddNoteProps = {
   show: boolean;

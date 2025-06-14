@@ -3,6 +3,7 @@ import type { NoteType } from "../lib/types";
 import { useState } from "react";
 import DeleteNote from "./features/DeleteNote";
 import { TAG_LENGTH_NOTE, USER_ID } from "../lib/constants";
+import EditNote from "./features/EditNote";
 
 export default function Note({
   note,
@@ -12,10 +13,14 @@ export default function Note({
   onDeleteSuccess: () => void;
 }) {
   const [checkDelete, setCheckDelete] = useState(false);
+  const [checkEdit, setCheckEdit] = useState(false);
+
   const [deleteData, setDeleteData] = useState<{
     userId: string;
     noteId?: string;
   }>({ userId: USER_ID });
+
+  //const [editData, setEditData] = useState<NoteType>();
 
   async function handleDelete(noteId: string) {
     //kad se klikne na trash, da se ispod pojavi div
@@ -29,6 +34,17 @@ export default function Note({
 
   function handleDiscard() {
     setCheckDelete(false);
+  }
+
+  function handleEdit() {
+    //modal da se otvori
+    //note podaci imam
+
+    setCheckEdit(true);
+  }
+
+  function handleClose() {
+    setCheckEdit(false);
   }
 
   return (
@@ -106,6 +122,7 @@ export default function Note({
                   minHeight: "24px",
                   flexShrink: 0, // ne skuplja se ako tagovi zauzmu prostor
                 }}
+                onClick={handleEdit}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -185,6 +202,13 @@ export default function Note({
             onDiscard={handleDiscard}
             onDeleteSuccess={onDeleteSuccess}
             deleteData={deleteData}
+          />
+        )}
+        {checkEdit && (
+          <EditNote
+            editData={note}
+            show={checkEdit}
+            onClose={handleClose}
           />
         )}
       </div>

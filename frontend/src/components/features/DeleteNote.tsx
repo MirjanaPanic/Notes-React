@@ -1,6 +1,6 @@
 //import { useState } from "react";
 //import AllNotes from "../AllNotes";
-import MyButton from "../custom/MyButton";
+import MyButton from "../reusable/MyButton";
 
 export default function DeleteNote({
   deleteData,
@@ -13,6 +13,7 @@ export default function DeleteNote({
 }) {
   async function handleClick() {
     console.log("klik na trash: ", deleteData);
+    //dodati da kad se obrise note, a nema vise beleski pod tim tagom, da se on ukloni iz sidebar liste tagova odmah(ne na refresh kad se ponovo ucitava str i fetchuje)
     try {
       const response = await fetch("http://localhost:5000/notes/deleteNote", {
         method: "POST",
@@ -29,6 +30,7 @@ export default function DeleteNote({
         //da izadje neka poruka da nije uspela da se obrise
       }
       onDeleteSuccess(); //javi roditelju, da osvezi opet allNotes
+      //i sedebar
     } catch (error) {
       console.error("Error deleting note:", error);
       throw error;
