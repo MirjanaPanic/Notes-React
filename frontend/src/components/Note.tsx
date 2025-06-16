@@ -3,15 +3,9 @@ import type { NoteType } from "../lib/types";
 import { useState } from "react";
 import DeleteNote from "./features/DeleteNote";
 import { TAG_LENGTH_NOTE, USER_ID } from "../lib/constants";
-import EditNote from "./features/EditNote";
+import OpenNote from "./reusable/OpenNote";
 
-export default function Note({
-  note,
-  onDeleteSuccess,
-}: {
-  note: NoteType;
-  onDeleteSuccess: () => void;
-}) {
+export default function Note({ note }: { note: NoteType }) {
   const [checkDelete, setCheckDelete] = useState(false);
   const [checkEdit, setCheckEdit] = useState(false);
 
@@ -20,10 +14,7 @@ export default function Note({
     noteId?: string;
   }>({ userId: USER_ID });
 
-  //const [editData, setEditData] = useState<NoteType>();
-
-  async function handleDelete(noteId: string) {
-    //kad se klikne na trash, da se ispod pojavi div
+  function handleDelete(noteId: string) {
     const updatedDeleteData = {
       ...deleteData,
       noteId: noteId,
@@ -32,18 +23,13 @@ export default function Note({
     setCheckDelete(true); //to trigeruje re-render
   }
 
-  function handleDiscard() {
-    setCheckDelete(false);
-  }
-
   function handleEdit() {
-    //modal da se otvori
-    //note podaci imam
-
     setCheckEdit(true);
   }
 
-  function handleClose() {
+  function handleDiscard() {
+    //zatvori modal
+    setCheckDelete(false);
     setCheckEdit(false);
   }
 
@@ -126,12 +112,12 @@ export default function Note({
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  height="20px"
-                  width="20px"
+                  height="24px"
                   viewBox="0 -960 960 960"
-                  fill="white"
+                  width="24px"
+                  fill="#FFFFFF"
                 >
-                  <path d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z" />
+                  <path d="M160-400v-80h280v80H160Zm0-160v-80h440v80H160Zm0-160v-80h440v80H160Zm360 560v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T863-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
                 </svg>
               </Button>
             </div>
@@ -197,19 +183,13 @@ export default function Note({
             </span>
           </div>
         </section>
+
+        {/*Delete and Edit MODALS */}
         {checkDelete && (
-          <DeleteNote
-            onDiscard={handleDiscard}
-            onDeleteSuccess={onDeleteSuccess}
-            deleteData={deleteData}
-          />
+          <DeleteNote deleteData={deleteData} onDiscard={handleDiscard} />
         )}
         {checkEdit && (
-          <EditNote
-            editData={note}
-            show={checkEdit}
-            onClose={handleClose}
-          />
+          <OpenNote action={"edit"} note={note} onDiscard={handleDiscard} />
         )}
       </div>
     </>

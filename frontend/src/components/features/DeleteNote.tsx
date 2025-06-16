@@ -1,17 +1,18 @@
 //import { useState } from "react";
 //import AllNotes from "../AllNotes";
+import { useHomeContext } from "../context";
 import MyButton from "../reusable/MyButton";
 
 export default function DeleteNote({
   deleteData,
   onDiscard,
-  onDeleteSuccess,
 }: {
   deleteData: object;
   onDiscard: () => void;
-  onDeleteSuccess: () => void;
 }) {
-  async function handleClick() {
+  const { refreshNotes } = useHomeContext();
+
+  async function handleDelete() {
     console.log("klik na trash: ", deleteData);
     //dodati da kad se obrise note, a nema vise beleski pod tim tagom, da se on ukloni iz sidebar liste tagova odmah(ne na refresh kad se ponovo ucitava str i fetchuje)
     try {
@@ -29,7 +30,7 @@ export default function DeleteNote({
         throw new Error(data.message || "Failed to delete note");
         //da izadje neka poruka da nije uspela da se obrise
       }
-      onDeleteSuccess(); //javi roditelju, da osvezi opet allNotes
+      refreshNotes(); //javi roditelju, da osvezi opet allNotes
       //i sedebar
     } catch (error) {
       console.error("Error deleting note:", error);
@@ -41,7 +42,7 @@ export default function DeleteNote({
     <>
       <div style={{ margin: "5px" }}>
         <p style={{ fontSize: "15px" }}> Delete this note?</p>
-        <MyButton type="success" onClick={handleClick}>
+        <MyButton type="success" onClick={handleDelete}>
           {" "}
           Yes
         </MyButton>

@@ -211,4 +211,54 @@ router.post("/deleteNote", async (req, res) => {
   }
 });
 
+//azuriranje beleske
+router.put("/editNote", async (req, res) => {
+  try {
+    const { userId, noteId, title, content, tags } = req.body;
+
+    if (!userId || !noteId) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing noteId or userId",
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(noteId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Not valid noteId",
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Not valid userId",
+      });
+    }
+
+    const updatedNote = await Note.findOneAndUpdate(
+      { _id: noteId, userId }, //filter
+      { title, content, tags }, //novi podaci
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedNote) {
+      return res.status(404).json({
+        success: false,
+        message: "Note not found or you don't have permission to edit",
+      });
+    }
+    res.status(200).json({
+      updatedNote,
+    });
+  } catch (error) {
+    console.error("Error updating note:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error updating note",
+    });
+  }
+});
+
 module.exports = router;
