@@ -6,7 +6,7 @@ import MyButton from "./MyButton";
 import { USER_ID } from "../../lib/constants";
 import { useHomeContext } from "../context";
 import { addNote, updateNote } from "../../api/notes";
-import { adjustTextareaHeight } from "../../utils/textarea";
+import { adjustTextareaHeight } from "../../lib/utils/textarea";
 import type { NoteType } from "../../lib/types";
 
 export default function OpenNote({
@@ -85,7 +85,7 @@ export default function OpenNote({
       refreshNotes();
     }
 
-    // handleDiscard(); //treba ako ne radim refreshNotes()
+     handleDiscard(); //treba ako ne radim refreshNotes()
   }
 
   function handleDiscard() {

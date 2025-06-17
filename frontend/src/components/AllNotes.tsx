@@ -8,9 +8,11 @@ import { USER_ID } from "../lib/constants";
 export default function AllNotes({
   trigger,
   tag,
+  refreshBytag,
 }: {
   trigger?: boolean;
   tag?: string;
+  refreshBytag?: boolean;
 }) {
   const [notes, setNotes] = useState<NoteType[]>([]);
 
@@ -51,7 +53,7 @@ export default function AllNotes({
     }
     fetchNotes();
     return () => controller.abort();
-  }, [trigger, tag]); // Oba dependency-ja
+  }, [trigger, tag, refreshBytag]); // Oba dependency-ja
 
   if (loading) return <LoadingMessage />;
   if (error) return <ErrorMessage message={error} />;

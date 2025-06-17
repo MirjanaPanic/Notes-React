@@ -1,16 +1,20 @@
 import MyNavbar from "../components/layout/Navbar";
 import AllNotes from "../components/AllNotes";
 import Sidebar from "../components/layout/Sidebar";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+
 import OpenNote from "../components/reusable/OpenNote";
 import { HomeContext } from "../components/context";
+import { useState } from "react";
+import { useMatch, useParams } from "react-router-dom";
 
 export default function Home() {
   const [trigger, setTrigger] = useState(false);
-  const [show, setShow] = useState(false); 
+  const [show, setShow] = useState(false);
+  const [updByTags, setUpdByTags] = useState(false);
 
   const { tag } = useParams(); // ako je aktivan tag u URL-u
+
+  const match = useMatch("/notes/tag/:tag");
 
   function handleOpen() {
     setShow(true);
@@ -20,7 +24,13 @@ export default function Home() {
   }
 
   function refreshNotes() {
-    setTrigger((prev) => !prev);
+    //i setTag isto!  u zavisnosti da li je na / ili na nekom tagu
+    if (match) {
+      //const tag = match.params.tag;
+      setUpdByTags((prev) => !prev);
+    } else {
+      setTrigger((prev) => !prev);
+    }
   }
 
   //da preuzmem usera, i da ga prosledim kome treba
@@ -41,7 +51,11 @@ export default function Home() {
           }}
         >
           <HomeContext.Provider value={{ refreshNotes }}>
-            {!tag ? <AllNotes trigger={trigger} /> : <AllNotes tag={tag} />}
+            {!tag ? (
+              <AllNotes trigger={trigger} />
+            ) : (
+              <AllNotes refreshBytag={updByTags} tag={tag} />
+            )}
             {show && ( //ADD NOTE
               <OpenNote action={"add"} onDiscard={handleDiscard} />
             )}
