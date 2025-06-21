@@ -13,7 +13,6 @@ export default function DeleteNote({
   const { refreshNotes } = useHomeContext();
 
   async function handleDelete() {
-    //nece da brise belesku kad je na neki tag :(
     //dodati da kad se obrise note, a nema vise beleski pod tim tagom, da se on ukloni iz sidebar liste tagova odmah(ne na refresh kad se ponovo ucitava str i fetchuje)
     try {
       const response = await fetch("http://localhost:5000/notes/deleteNote", {
