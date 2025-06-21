@@ -4,20 +4,21 @@ import LoadingMessage from "./ui/LoadingMessage";
 import ErrorMessage from "./ui/ErrorMessage";
 import type { ErrorType, NoteType } from "../lib/types";
 import { USER_ID } from "../lib/constants";
+import { useNavigate } from "react-router-dom";
 
 export default function AllNotes({
-  trigger,
+  display,
   tag,
-  refreshBytag,
 }: {
-  trigger?: boolean;
+  display: string;
   tag?: string;
-  refreshBytag?: boolean;
 }) {
   const [notes, setNotes] = useState<NoteType[]>([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ErrorType>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setNotes([]); // Očisti na početku
@@ -41,8 +42,16 @@ export default function AllNotes({
 
         if (!response.ok) throw new Error("Failed to fetch notes");
 
-        const data = await response.json();
-        setNotes(tag ? data.data : data);
+        const responseData = await response.json();
+
+        if (
+          Array.isArray(responseData.data) &&
+          responseData.data.length === 0
+        ) {
+          // redirekt na allnotes
+          navigate("/");
+        }
+        setNotes(tag ? responseData.data : responseData);
       } catch (err) {
         if (err instanceof Error && err.name !== "AbortError") {
           setError(err.message);
@@ -53,7 +62,7 @@ export default function AllNotes({
     }
     fetchNotes();
     return () => controller.abort();
-  }, [trigger, tag, refreshBytag]); // Oba dependency-ja
+  }, [display, tag,navigate]); // Oba dependency-ja
 
   if (loading) return <LoadingMessage />;
   if (error) return <ErrorMessage message={error} />;

@@ -8,7 +8,7 @@ export default function Sidebar({
   trigger,
 }: {
   onOpen: () => void;
-  trigger: boolean;
+  trigger: string;
 }) {
   const [tags, setTags] = useState<string[]>([]); //dependency je tags..... opet isto
 

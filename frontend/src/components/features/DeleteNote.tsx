@@ -29,6 +29,7 @@ export default function DeleteNote({
         throw new Error(data.message || "Failed to delete note");
         //da izadje neka poruka da nije uspela da se obrise
       }
+      console.log("brisanje")
       refreshNotes(); //javi roditelju, da osvezi opet allNotes
       //da ako se obrisu sve beleske nekog taga, on se ukloni iz sidebar
     } catch (error) {

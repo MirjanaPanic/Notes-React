@@ -14,6 +14,7 @@ export async function addNote(note: {
     const errorText = await res.text();
     throw new Error(`Server error: ${res.status} - ${errorText}`);
   }
+  console.log("izvrsilo se");
 }
 
 export async function updateNote(noteForEdit: {

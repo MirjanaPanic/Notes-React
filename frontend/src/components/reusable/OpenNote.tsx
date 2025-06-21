@@ -8,6 +8,7 @@ import { useHomeContext } from "../context";
 import { addNote, updateNote } from "../../api/notes";
 import { adjustTextareaHeight } from "../../lib/utils/textarea";
 import type { NoteType } from "../../lib/types";
+import { useNavigate } from "react-router-dom";
 
 export default function OpenNote({
   action,
@@ -22,6 +23,8 @@ export default function OpenNote({
   const [content, setContent] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
+
+  const navigate = useNavigate();
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -81,11 +84,12 @@ export default function OpenNote({
         refreshNotes();
       }
     } else {
+      console.log(noteData);
       await addNote(noteData); // novi note
-      refreshNotes();
+      refreshNotes(); //kad dodajem belesku da me uvek vrati na allNotes
+      navigate("/");
     }
-
-     handleDiscard(); //treba ako ne radim refreshNotes()
+    handleDiscard(); //treba ako ne radim refreshNotes()
   }
 
   function handleDiscard() {

@@ -1,42 +1,39 @@
 import MyNavbar from "../components/layout/Navbar";
 import AllNotes from "../components/AllNotes";
 import Sidebar from "../components/layout/Sidebar";
-
 import OpenNote from "../components/reusable/OpenNote";
 import { HomeContext } from "../components/context";
 import { useState } from "react";
-import { useMatch, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+type TypeDisplayNotes = "notesByTag" | "allNotes";
 
 export default function Home() {
-  const [trigger, setTrigger] = useState(false);
-  const [show, setShow] = useState(false);
-  const [updByTags, setUpdByTags] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const [displayNotes, setDisplayNotes] =
+    useState<TypeDisplayNotes>("allNotes");
 
   const { tag } = useParams(); // ako je aktivan tag u URL-u
-
-  const match = useMatch("/notes/tag/:tag");
-
+  //const match = useMatch("/notes/tag/:tag");
+  //ako sam na nekom tagu, i kreiram belesku novu, da me odvede na allNotes
   function handleOpen() {
-    setShow(true);
+    setShowAddModal(true);
   }
   function handleDiscard() {
-    setShow(false);
+    setShowAddModal(false);
   }
 
   function refreshNotes() {
-    //i setTag isto!  u zavisnosti da li je na / ili na nekom tagu
-    if (match) {
-      //const tag = match.params.tag;
-      setUpdByTags((prev) => !prev);
-    } else {
-      setTrigger((prev) => !prev);
-    }
+    setDisplayNotes((prev) =>
+      prev === "notesByTag" ? "allNotes" : "notesByTag"
+    );
   }
 
   //da preuzmem usera, i da ga prosledim kome treba
   return (
     <div style={{ display: "flex", height: "100vh" }}>
-      <Sidebar onOpen={handleOpen} trigger={trigger} />
+      <Sidebar onOpen={handleOpen} trigger={displayNotes} />
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <MyNavbar />
 
@@ -52,11 +49,11 @@ export default function Home() {
         >
           <HomeContext.Provider value={{ refreshNotes }}>
             {!tag ? (
-              <AllNotes trigger={trigger} />
+              <AllNotes display={displayNotes} />
             ) : (
-              <AllNotes refreshBytag={updByTags} tag={tag} />
+              <AllNotes display={displayNotes} tag={tag} />
             )}
-            {show && ( //ADD NOTE
+            {showAddModal && ( //ADD NOTE
               <OpenNote action={"add"} onDiscard={handleDiscard} />
             )}
           </HomeContext.Provider>
