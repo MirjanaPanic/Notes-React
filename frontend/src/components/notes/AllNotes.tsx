@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Note from "./Note";
-import LoadingMessage from "./ui/LoadingMessage";
-import ErrorMessage from "./ui/ErrorMessage";
-import type { ErrorType, NoteType } from "../lib/types";
-import { USER_ID } from "../lib/constants";
+import LoadingMessage from "../ui/LoadingMessage";
+import ErrorMessage from "../ui/ErrorMessage";
+import type { ErrorType, NoteType } from "../../lib/types";
+import { USER_ID } from "../../lib/constants";
 import { useNavigate } from "react-router-dom";
 
 export default function AllNotes({
@@ -62,7 +62,7 @@ export default function AllNotes({
     }
     fetchNotes();
     return () => controller.abort();
-  }, [display, tag,navigate]); // Oba dependency-ja
+  }, [display, tag, navigate]); // Oba dependency-ja
 
   if (loading) return <LoadingMessage />;
   if (error) return <ErrorMessage message={error} />;

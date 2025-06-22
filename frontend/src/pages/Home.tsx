@@ -1,5 +1,5 @@
 import MyNavbar from "../components/layout/Navbar";
-import AllNotes from "../components/AllNotes";
+import AllNotes from "../components/notes/AllNotes";
 import Sidebar from "../components/layout/Sidebar";
 import OpenNote from "../components/reusable/OpenNote";
 import { HomeContext } from "../components/context";
@@ -16,7 +16,6 @@ export default function Home() {
 
   const { tag } = useParams(); // ako je aktivan tag u URL-u
   //const match = useMatch("/notes/tag/:tag");
-  //ako sam na nekom tagu, i kreiram belesku novu, da me odvede na allNotes
 
   function handleOpen() {
     setShowAddModal(true);

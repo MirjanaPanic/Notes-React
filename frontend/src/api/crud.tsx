@@ -40,3 +40,24 @@ export async function updateNote(noteForEdit: {
   console.log("Updated data", data);
   return data;
 }
+
+export async function deleteNote(deleteData: {
+  userId: string;
+  noteId?: string;
+}) {
+  const response = await fetch("http://localhost:5000/notes/deleteNote", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(deleteData),
+  });
+
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data.message || "Failed to delete note");
+  }
+
+  return response.json(); // Vraći podatke umesto boolean
+}
+

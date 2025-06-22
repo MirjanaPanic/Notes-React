@@ -20,13 +20,15 @@ export default function MyButton({
   children,
 }: ButtonProps) {
   return (
-    <Button
-      variant={type}
-      disabled={disabled}
-      onClick={onClick}
-      style={{ borderRadius: "20px" }}
-    >
-      {children}
-    </Button>
+    <>
+      <Button
+        variant={type}
+        disabled={disabled}
+        onClick={onClick}
+        style={{ borderRadius: "20px" }}
+      >
+        {children}
+      </Button>
+    </>
   );
 }

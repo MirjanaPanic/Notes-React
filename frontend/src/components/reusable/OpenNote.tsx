@@ -1,11 +1,9 @@
-//za add note i edit note
-//da vidim sta moze biti zajednicko
 import { useEffect, useRef, useState } from "react";
 import { CloseButton, Form, Modal } from "react-bootstrap";
 import MyButton from "./MyButton";
 import { USER_ID } from "../../lib/constants";
 import { useHomeContext } from "../context";
-import { addNote, updateNote } from "../../api/notes";
+import { addNote, updateNote } from "../../api/crud";
 import { adjustTextareaHeight } from "../../lib/utils/textarea";
 import type { NoteType } from "../../lib/types";
 import { useNavigate } from "react-router-dom";
