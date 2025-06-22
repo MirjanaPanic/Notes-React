@@ -2,12 +2,15 @@ import { Button } from "react-bootstrap";
 import type { NoteType } from "../lib/types";
 import { useState } from "react";
 import DeleteNote from "./features/DeleteNote";
-import { TAG_LENGTH_NOTE, USER_ID } from "../lib/constants";
+import { USER_ID } from "../lib/constants";
 import OpenNote from "./reusable/OpenNote";
+import NoteTags from "./layout/NoteTags";
+import NoteContent from "./layout/NoteContent";
+
+type TypeAction = "delete" | "edit" | null; //null mi je kao "none"(nije izabrana action)
 
 export default function Note({ note }: { note: NoteType }) {
-  const [checkDelete, setCheckDelete] = useState(false);
-  const [checkEdit, setCheckEdit] = useState(false);
+  const [action, setAction] = useState<TypeAction>(null); //undefined ako se ne inicijalizuje
 
   const [deleteData, setDeleteData] = useState<{
     userId: string;
@@ -20,17 +23,15 @@ export default function Note({ note }: { note: NoteType }) {
       noteId: noteId,
     };
     setDeleteData(updatedDeleteData);
-    setCheckDelete(true); //to trigeruje re-render
+    setAction("delete");
   }
 
   function handleEdit() {
-    setCheckEdit(true);
+    setAction("edit");
   }
 
   function handleDiscard() {
-    //zatvori modal
-    setCheckDelete(false);
-    setCheckEdit(false);
+    setAction(null);
   }
 
   return (
@@ -74,25 +75,7 @@ export default function Note({ note }: { note: NoteType }) {
                   minWidth: 0, // omogućava skraćivanje po širini ako treba
                 }}
               >
-                {note.tags.map((tag) => {
-                  const displaytag =
-                    tag.length <= TAG_LENGTH_NOTE
-                      ? tag
-                      : `${tag.slice(0, TAG_LENGTH_NOTE)}...`;
-                  return (
-                    <span
-                      key={tag}
-                      style={{
-                        color: "#B4D8B2",
-                        fontSize: "0.85rem",
-                        whiteSpace: "nowrap",
-                      }}
-                      //onMouseEnter={() => console.log("Hovered!")}
-                    >
-                      {displaytag}
-                    </span>
-                  );
-                })}
+                <NoteTags tags={note.tags} />
               </div>
 
               {/* Ikonica - desni deo */}
@@ -122,22 +105,8 @@ export default function Note({ note }: { note: NoteType }) {
               </Button>
             </div>
           </section>
-          {/*  title i content */}
-          <section>
-            <strong style={{ fontSize: "1rem" }}>{note.title}</strong>
-            <p
-              style={{
-                marginTop: "0.5rem",
-                fontSize: "0.85rem",
-                overflow: "hidden",
-                display: "-webkit-box",
-                WebkitLineClamp: 20,
-                WebkitBoxOrient: "vertical",
-              }}
-            >
-              {note.content || "(No Content)"}
-            </p>
-          </section>
+
+          <NoteContent title={note.title} content={note.content} />
         </div>
         {/*  trash button i last modified*/}
         <section>
@@ -185,10 +154,10 @@ export default function Note({ note }: { note: NoteType }) {
         </section>
 
         {/*Delete and Edit MODALS */}
-        {checkDelete && (
+        {action === "delete" && (
           <DeleteNote deleteData={deleteData} onDiscard={handleDiscard} />
         )}
-        {checkEdit && (
+        {action === "edit" && (
           <OpenNote action={"edit"} note={note} onDiscard={handleDiscard} />
         )}
       </div>

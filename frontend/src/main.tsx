@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  // <React.StrictMode>
+  //<React.StrictMode>
   <BrowserRouter>
     <AppRoutes />
   </BrowserRouter>

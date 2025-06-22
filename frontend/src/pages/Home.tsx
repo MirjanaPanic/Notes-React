@@ -17,6 +17,7 @@ export default function Home() {
   const { tag } = useParams(); // ako je aktivan tag u URL-u
   //const match = useMatch("/notes/tag/:tag");
   //ako sam na nekom tagu, i kreiram belesku novu, da me odvede na allNotes
+
   function handleOpen() {
     setShowAddModal(true);
   }
